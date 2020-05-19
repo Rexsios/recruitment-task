@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { GlobalStyles } from '../../globalStyles'
+import { globalStyles } from '../../globalStyles'
 
 interface IDetailPropsInput {
   isValid: boolean
@@ -88,7 +88,7 @@ export const StyledInput = styled.div<IDetailPropsInput>`
       background: ${({ isValid }) =>
         isValid
           ? 'linear-gradient(45deg, #aa39d6, rgba(115, 4, 159, 1))'
-          : GlobalStyles.buttonNoReachColor};
+          : globalStyles.buttonNoReachColor};
     }
   }
 `

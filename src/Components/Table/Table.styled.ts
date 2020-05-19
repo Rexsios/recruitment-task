@@ -31,7 +31,11 @@ export const StyledHeader = styled.header`
   }
 `
 
-export const StyledTable = styled.table`
+interface IDetailPropsTable {
+  headerNames: string[]
+}
+
+export const StyledTable = styled.table<IDetailPropsTable>`
   width: 100%;
   text-align: center;
   border-spacing: 0;
@@ -105,7 +109,7 @@ export const StyledTable = styled.table`
       position: relative;
 
       &:before {
-        content: 'Id';
+        content:'${(p) => p.headerNames[0]}';
         font-weight: 500;
         position: absolute;
         top: 50%;
@@ -115,32 +119,37 @@ export const StyledTable = styled.table`
 
       &:nth-of-type(2) {
         &:before {
-          content: 'Name';
+          content: '${(p) => p.headerNames[1]}';
         }
       }
 
       &:nth-of-type(3) {
         &:before {
-          content: 'City';
+          content: '${(p) => p.headerNames[2]}';
         }
       }
 
       &:nth-of-type(4) {
         &:before {
-          content: 'Total incomes';
+          content: '${(p) => p.headerNames[3]}';
         }
       }
 
       &:nth-of-type(5) {
         &:before {
-          content: 'Avarage incomes';
+          content: '${(p) => p.headerNames[4]}';
         }
       }
       &:nth-of-type(6) {
         &:before {
-          content: 'Last month';
+          content: '${(p) => p.headerNames[5]}';
         }
       }
     }
   }
+`
+
+export const SpinnerWrapper = styled.div`
+  margin: 40px auto;
+  width: 30%;
 `

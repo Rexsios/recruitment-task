@@ -1,235 +1,55 @@
 import React from 'react'
-import { StyledTable, StyledWrapper, StyledHeader } from './Table.styled'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { StyledTable, StyledWrapper, StyledHeader, SpinnerWrapper } from './Table.styled'
 import { Search } from '../Search/Search'
 import { TitleSvg } from '../../Assets/TitleSvg'
+import { CompaniesAndIncomesData } from '../../Types/Inferaces/ListOfInterfaces'
+import { SingleRow } from './SingleRow/SingleRow'
+import { SingleHeader } from './SingleHeader/SingleHeader'
+import { Spinner } from '../UI/SpinnerForExerciseInfoPanel/Spinner'
 
-export const Table = () => {
+interface IDetailProps {
+  data: CompaniesAndIncomesData[]
+  loading: boolean
+}
+
+export const Table: React.FC<IDetailProps> = (props) => {
+  let { data, loading } = props
+  let showData = null
+  let showSpinner = null
+  if (!loading)
+    showData = data.map((item, i) => <SingleRow singleData={item} key={`singleRow${item.id}`} />)
+  else
+    showSpinner = (
+      <SpinnerWrapper>
+        <Spinner />
+      </SpinnerWrapper>
+    )
+
+  const headerNames = [
+    'Id',
+    'Name',
+    'City',
+    'Total incomes',
+    'Avarage incomes',
+    'Last month income',
+  ]
+  const showHeader = headerNames.map((item, i) => (
+    <SingleHeader name={item} id={i} key={`singleHeader${i}`} />
+  ))
+
   return (
     <StyledWrapper>
       <StyledHeader>
         <TitleSvg />
         <Search />
       </StyledHeader>
-      <StyledTable>
+      <StyledTable headerNames={headerNames}>
         <thead>
-          <tr>
-            <th>
-              <button>
-                <div>
-                  <p>Id</p>
-                  <FontAwesomeIcon icon={faChevronUp} />
-                </div>
-              </button>
-            </th>
-            <th>
-              <button>
-                <div>
-                  <p>Name</p>
-                  <FontAwesomeIcon icon={faChevronUp} />
-                </div>
-              </button>
-            </th>
-            <th>
-              <button>
-                <div>
-                  <p>City</p>
-                  <FontAwesomeIcon icon={faChevronUp} />
-                </div>
-              </button>
-            </th>
-            <th>
-              <button>
-                <div>
-                  <p>Total incomes</p>
-                  <FontAwesomeIcon icon={faChevronUp} />
-                </div>
-              </button>
-            </th>
-            <th>
-              <button>
-                <div>
-                  <p>Avarage incomes</p>
-                  <FontAwesomeIcon icon={faChevronUp} />
-                </div>
-              </button>
-            </th>
-            <th>
-              <button>
-                <div>
-                  <p>Avarage incomes</p>
-                  <FontAwesomeIcon icon={faChevronUp} />
-                </div>
-              </button>
-            </th>
-          </tr>
+          <tr>{showHeader}</tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Boehm - Crist</td>
-            <td>Pozdro600</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>
-              <span>Robel, Nicolas and McKenzie</span>
-            </td>
-            <td>Port Heidifurt</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Cormier and Sons</td>
-            <td>Port Earlene</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Anderson, Champlin and Bartell</td>
-            <td>Jaydefurt</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Boehm - Crist</td>
-            <td>Weimannhaven</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Robel, Nicolas and McKenzie</td>
-            <td>Port Heidifurt</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Cormier and Sons</td>
-            <td>Port Earlene</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Anderson, Champlin and Bartell</td>
-            <td>Jaydefurt</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Boehm - Crist</td>
-            <td>Weimannhaven</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Robel, Nicolas and McKenzie</td>
-            <td>Port Heidifurt</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Cormier and Sons</td>
-            <td>Port Earlene</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Anderson, Champlin and Bartell</td>
-            <td>Jaydefurt</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Boehm - Crist</td>
-            <td>Weimannhaven</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Robel, Nicolas and McKenzie</td>
-            <td>Port Heidifurt</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Cormier and Sons</td>
-            <td>Port Earlene</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Anderson, Champlin and Bartell</td>
-            <td>Jaydefurt</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Boehm - Crist</td>
-            <td>Weimannhaven</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Robel, Nicolas and McKenzie</td>
-            <td>Port Heidifurt</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Cormier and Sons</td>
-            <td>Port Earlene</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Anderson, Champlin and Bartell</td>
-            <td>Jaydefurt</td>
-            <td>100000</td>
-            <td>3000</td>
-            <td>30000</td>
-          </tr>
-        </tbody>
+        <tbody>{showData}</tbody>
       </StyledTable>
+      {showSpinner}
     </StyledWrapper>
   )
 }

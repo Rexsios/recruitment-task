@@ -1,4 +1,4 @@
-export const GlobalStyles =  {
+export const globalStyles =  {
     buttonColor: '#20bf6b',
     buttonNoReachColor: "#C21807",
     backgroundMainColor: 'rgb(47, 46, 51)',
