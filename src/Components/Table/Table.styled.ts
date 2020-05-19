@@ -40,9 +40,9 @@ export const StyledTable = styled.table<IDetailPropsTable>`
   text-align: center;
   border-spacing: 0;
   tr {
-    background: #fff;
+    background-color:rgba(255,255,255,0.9);
     &:nth-child(2n) {
-      background-color: #e5e5e5;
+      background-color: rgba(229,229,229,0.9);
     }
 
     &:hover {
@@ -76,7 +76,8 @@ export const StyledTable = styled.table<IDetailPropsTable>`
         align-items: center;
         svg {
           justify-self: left;
-          margin-left: 1px;
+          width:14px;
+          margin-left: 3px;
         }
       }
 
@@ -105,7 +106,7 @@ export const StyledTable = styled.table<IDetailPropsTable>`
     td {
       display: block;
       text-align: left;
-      padding: 10px 20px 10px 170px;
+      padding: 10px 20px 10px 200px;
       position: relative;
 
       &:before {

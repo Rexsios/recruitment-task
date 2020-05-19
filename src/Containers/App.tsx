@@ -18,6 +18,7 @@ export default class App extends Component {
     data: [],
     loading: true,
   }
+
   componentDidMount() {
     let tableWithDataToSend: CompaniesAndIncomesData[] = []
     let length = 0
@@ -32,7 +33,6 @@ export default class App extends Component {
               const { totalValue, avarageValue, lastMonthValue } = ManageData.countNecceseryValues(
                 incomesResponse.data.incomes
               )
-              console.log('end')
 
               const newObjectToTable: CompaniesAndIncomesData = {
                 id: item.id,
