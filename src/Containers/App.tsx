@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import { StyledDiv } from './App.styled'
-import axios from 'axios';
+import { Table } from '../Components/Table/Table'
 
 export default class App extends Component {
   render() {
-    return <StyledDiv>Initialization</StyledDiv>
+    return <Table/>
   }
 }
