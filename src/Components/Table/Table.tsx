@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
-import { StyledTable, StyledWrapper, StyledHeader, SpinnerWrapper } from './Table.styled'
+import {
+  StyledTable,
+  StyledWrapper,
+  StyledHeader,
+  SpinnerWrapper,
+  StyledText,
+} from './Table.styled'
 import { Search } from '../Search/Search'
 import { TitleSvg } from '../../Assets/TitleSvg'
 import { CompaniesAndIncomesData } from '../../Types/Inferaces/ListOfInterfaces'
@@ -14,28 +20,34 @@ interface IDetailProps {
   loading: boolean
 }
 
+const headerNames = ['Id', 'Name', 'City', 'Total incomes', 'Avarage incomes', 'Last month incomes']
+
 export const Table: React.FC<IDetailProps> = (props) => {
+  let { data, loading } = props
+  console.log('reRender')
   const [whichButton, setWhichButton] = useState<WhichColumn>(0)
   const [reverseButton, setReverseButton] = useState(false)
-  console.log('reRender')
-  let { data, loading } = props
+  const [displayData, setDisplayData] = useState<CompaniesAndIncomesData[] | null>(null)
+  const [inputValue, setInputValue] = useState('')
+
+  if (!loading && displayData === null) setDisplayData(data)
   let showData = null
   let showSpinner = null
 
   const handleButton = (id: WhichColumn) => {
+    if (id === whichButton && reverseButton === false) {
+      setReverseButton((prevState) => !prevState)
+      setDisplayData(MenageData.filterData(data, id, true))
+    } else {
+      setReverseButton(false)
+      setDisplayData(MenageData.filterData(data, id))
+    }
     setWhichButton(id)
-    if (id === whichButton) setReverseButton(!reverseButton)
-    else setReverseButton(false)
   }
 
-  const headerNames = [
-    'Id',
-    'Name',
-    'City',
-    'Total incomes',
-    'Avarage incomes',
-    'Last month incomes',
-  ]
+  const handleInputValue = (e: React.FormEvent<HTMLInputElement>) => {
+    setInputValue(e.currentTarget.value.toLowerCase())
+  }
 
   const showHeader = headerNames.map((item, i) => {
     let chevronType = ChevronType.DEFAULT
@@ -52,17 +64,15 @@ export const Table: React.FC<IDetailProps> = (props) => {
     )
   })
 
-  let filteredData = data
-  if (whichButton !== 0) {
-    if (reverseButton) filteredData = MenageData.filterData(data, whichButton, true)
-    else filteredData = MenageData.filterData(data, whichButton)
-  }
-
-  if (!loading)
-    showData = filteredData.map((item, i) => (
-      <SingleRow singleData={item} key={`singleRow${item.id}`} />
-    ))
-  else
+  if (!loading && displayData !== null) {
+    let filterData = displayData
+    if (inputValue.length !== 0) filterData = MenageData.filterByInputValue(displayData, inputValue)
+    if (filterData.length !== 0)
+      showData = filterData.map((item) => (
+        <SingleRow singleData={item} key={`singleRow${item.id}`} />
+      ))
+    else showSpinner = <StyledText>Nie znaleziono w bazie danych</StyledText>
+  } else
     showSpinner = (
       <SpinnerWrapper>
         <Spinner />
@@ -73,7 +83,7 @@ export const Table: React.FC<IDetailProps> = (props) => {
     <StyledWrapper>
       <StyledHeader>
         <TitleSvg />
-        <Search />
+        <Search handleInputValue={(e) => handleInputValue(e)} />
       </StyledHeader>
       <StyledTable headerNames={headerNames}>
         <thead>

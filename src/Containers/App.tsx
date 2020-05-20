@@ -44,7 +44,7 @@ export default class App extends Component {
               }
               tableWithDataToSend.push(newObjectToTable)
 
-              if (i === length - 1) this.setState({ data: tableWithDataToSend, loading: false })
+              if (i === length - 1) this.setState({ data: [...tableWithDataToSend], loading: false })
             })
         })
       })

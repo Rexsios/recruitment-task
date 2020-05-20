@@ -71,12 +71,12 @@ export const StyledTable = styled.table<IDetailPropsTable>`
 
       div {
         display: grid;
+        padding:0 5px;
         grid-template-columns: 5fr 1fr;
         justify-items: center;
         align-items: center;
         svg {
           justify-self: left;
-          width:14px;
           margin-left: 3px;
         }
       }
@@ -153,4 +153,11 @@ export const StyledTable = styled.table<IDetailPropsTable>`
 export const SpinnerWrapper = styled.div`
   margin: 40px auto;
   width: 30%;
+`
+
+export const StyledText = styled.h2`
+  width: 100%;
+  color: White;
+  text-align: center;
+  padding: 20px;
 `
