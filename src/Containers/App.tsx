@@ -44,7 +44,8 @@ export default class App extends Component {
               }
               tableWithDataToSend.push(newObjectToTable)
 
-              if (i === length - 1) this.setState({ data: [...tableWithDataToSend], loading: false })
+              if (i === length - 1)
+                this.setState({ data: [...tableWithDataToSend], loading: false })
             })
         })
       })
@@ -55,3 +56,86 @@ export default class App extends Component {
     return <Table data={this.state.data} loading={this.state.loading} />
   }
 }
+
+/*{[
+          {
+            id: 1,
+            name: 'sdasdas',
+            city: 'sdasdas',
+            totalIncomes: 333,
+            avarageIncomes: 444,
+            lastMonthIncome: 555,
+          },
+          {
+            id: 2,
+            name: 'sdasdas',
+            city: 'sdasdas',
+            totalIncomes: 333,
+            avarageIncomes: 444,
+            lastMonthIncome: 555,
+          },
+          {
+            id: 3,
+            name: 'XD',
+            city: 'sdasdas',
+            totalIncomes: 333,
+            avarageIncomes: 444,
+            lastMonthIncome: 555,
+          },
+          {
+            id: 4,
+            name: 'sdasdas',
+            city: 'sdasdas',
+            totalIncomes: 333,
+            avarageIncomes: 444,
+            lastMonthIncome: 555,
+          },
+          {
+            id: 5,
+            name: 'sdasdas',
+            city: 'sdasdas',
+            totalIncomes: 333,
+            avarageIncomes: 444,
+            lastMonthIncome: 555,
+          },
+          {
+            id: 6,
+            name: 'sdasdas',
+            city: 'sdasdas',
+            totalIncomes: 333,
+            avarageIncomes: 444,
+            lastMonthIncome: 555,
+          },
+          {
+            id: 7,
+            name: 'sdasdas',
+            city: 'sdasdas',
+            totalIncomes: 333,
+            avarageIncomes: 444,
+            lastMonthIncome: 555,
+          },
+          {
+            id: 8,
+            name: 'sdasdas',
+            city: 'sdasdas',
+            totalIncomes: 333,
+            avarageIncomes: 444,
+            lastMonthIncome: 555,
+          },
+          {
+            id: 9,
+            name: 'sdasdas',
+            city: 'sdasdas',
+            totalIncomes: 333,
+            avarageIncomes: 444,
+            lastMonthIncome: 555,
+          },
+          {
+            id: 10,
+            name: 'sdasdas',
+            city: 'sdasdas',
+            totalIncomes: 333,
+            avarageIncomes: 444,
+            lastMonthIncome: 555,
+          },
+        ]}*/

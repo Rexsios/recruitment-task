@@ -90,6 +90,7 @@ export default class MenageData {
         singleData.lastMonthIncome.toFixed(0).toString().includes(inputValue)
       )
         return true
+      return false
     })
   }
 }

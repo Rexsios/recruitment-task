@@ -14,6 +14,9 @@ import { SingleHeader } from './SingleHeader/SingleHeader'
 import { Spinner } from '../UI/SpinnerForExerciseInfoPanel/Spinner'
 import { WhichColumn, ChevronType } from '../../Types/Enums/EnumsList'
 import MenageData from '../../Types/Classes/MenageData'
+import MenagePagginationData from '../../Types/Classes/MenagePagginationData'
+import { Paggination } from '../Paggination/Paggination'
+import { NumberOfDisplayRows } from './NumberOfDisplayRows/NumberOfDisplayRows'
 
 interface IDetailProps {
   data: CompaniesAndIncomesData[]
@@ -29,11 +32,15 @@ export const Table: React.FC<IDetailProps> = (props) => {
   const [reverseButton, setReverseButton] = useState(false)
   const [displayData, setDisplayData] = useState<CompaniesAndIncomesData[] | null>(null)
   const [inputValue, setInputValue] = useState('')
+  const [whichPage, setWhichPage] = useState(1)
+  const [howManyItemsOnSite, setHowManyItemsOnSite] = useState(20)
 
   if (!loading && displayData === null) setDisplayData(data)
   let showData = null
   let showSpinner = null
+  let showPaggination = null
 
+  //HeaderButtonHandle
   const handleButton = (id: WhichColumn) => {
     if (id === whichButton && reverseButton === false) {
       setReverseButton((prevState) => !prevState)
@@ -45,10 +52,20 @@ export const Table: React.FC<IDetailProps> = (props) => {
     setWhichButton(id)
   }
 
+  //HandleInput
   const handleInputValue = (e: React.FormEvent<HTMLInputElement>) => {
     setInputValue(e.currentTarget.value.toLowerCase())
+    setWhichPage(1)
   }
 
+  //HandleNumberOfRowsDisplayed
+
+  const handleNumberOfRowsDisplayed = (number: number) => {
+    setHowManyItemsOnSite(number)
+    setWhichPage(1)
+  }
+
+  //ShowHeaders
   const showHeader = headerNames.map((item, i) => {
     let chevronType = ChevronType.DEFAULT
     if (i + 1 === whichButton) chevronType = ChevronType.ASCENDING
@@ -64,14 +81,27 @@ export const Table: React.FC<IDetailProps> = (props) => {
     )
   })
 
+  //Display Data
   if (!loading && displayData !== null) {
     let filterData = displayData
     if (inputValue.length !== 0) filterData = MenageData.filterByInputValue(displayData, inputValue)
-    if (filterData.length !== 0)
+
+    //Pagination
+    showPaggination = (
+      <Paggination
+        whichPage={whichPage}
+        arrayLength={filterData.length}
+        howManyItemsOnSite={howManyItemsOnSite}
+        setWhichPage={setWhichPage}
+      />
+    )
+    filterData = MenagePagginationData.sliceData(filterData, whichPage, howManyItemsOnSite)
+
+    if (filterData.length !== 0) {
       showData = filterData.map((item) => (
         <SingleRow singleData={item} key={`singleRow${item.id}`} />
       ))
-    else showSpinner = <StyledText>Nie znaleziono w bazie danych</StyledText>
+    } else showSpinner = <StyledText>Nie znaleziono w bazie danych</StyledText>
   } else
     showSpinner = (
       <SpinnerWrapper>
@@ -84,6 +114,10 @@ export const Table: React.FC<IDetailProps> = (props) => {
       <StyledHeader>
         <TitleSvg />
         <Search handleInputValue={(e) => handleInputValue(e)} />
+        <NumberOfDisplayRows
+          howManyItemsOnSite={howManyItemsOnSite}
+          setHowManyItemsOnSite={handleNumberOfRowsDisplayed}
+        />
       </StyledHeader>
       <StyledTable headerNames={headerNames}>
         <thead>
@@ -92,6 +126,7 @@ export const Table: React.FC<IDetailProps> = (props) => {
         <tbody>{showData}</tbody>
       </StyledTable>
       {showSpinner}
+      {showPaggination}
     </StyledWrapper>
   )
 }

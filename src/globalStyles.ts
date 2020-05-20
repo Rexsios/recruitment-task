@@ -4,5 +4,6 @@ export const globalStyles =  {
     backgroundMainColor: 'rgb(47, 46, 51)',
     borderColor: 'rgba(131, 131, 131, 0.6)',
     mainColor : '#20bf6b',
-    mainColor2: '#73049f'
+    mainColor2: '#73049f',
+    borderMainColor2:'#d59aed'
 }

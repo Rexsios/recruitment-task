@@ -11,8 +11,6 @@ export const StyledWrapper = styled.div`
 `
 
 export const StyledHeader = styled.header`
-  display: grid;
-  column-gap: 10px;
   padding: 20px;
   justify-items: center;
   align-items: center;
@@ -27,7 +25,10 @@ export const StyledHeader = styled.header`
 
   @media (min-width: 768px) {
     width: 90%;
-    grid-template-columns: 2fr 1fr;
+    display: grid;
+    column-gap: 10px;
+    grid-template-columns: 4fr 2fr;
+    grid-template-areas: 'title search' 'numRows search';
   }
 `
 
@@ -101,12 +102,18 @@ export const StyledTable = styled.table<IDetailPropsTable>`
     th {
       display: block;
       padding: 0;
+
+      button {
+        div{
+          padding:0;
+        }
+      }
     }
 
     td {
       display: block;
       text-align: left;
-      padding: 10px 20px 10px 200px;
+      padding: 10px 5px 10px 180px;
       position: relative;
 
       &:before {
@@ -117,6 +124,7 @@ export const StyledTable = styled.table<IDetailPropsTable>`
         left: 20px;
         transform: translateY(-50%);
       }
+
 
       &:nth-of-type(2) {
         &:before {
@@ -159,5 +167,7 @@ export const StyledText = styled.h2`
   width: 100%;
   color: White;
   text-align: center;
-  padding: 20px;
+  @media (min-width: 768px) {
+    padding: 20px;
+  }
 `

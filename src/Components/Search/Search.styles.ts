@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { globalStyles } from '../../globalStyles'
 
 interface IDetailPropsInput {
   isValid: boolean
@@ -9,6 +8,8 @@ export const StyledInput = styled.div<IDetailPropsInput>`
   width: 100%;
   position: relative;
   border-bottom: 2px solid #dbdbdb;
+  grid-area: search;
+
   .label {
     font-weight: 600;
     font-size: 18px;
@@ -39,30 +40,6 @@ export const StyledInput = styled.div<IDetailPropsInput>`
     }
   }
 
-  .password {
-    display: flex;
-
-    svg {
-      font-size: 22px;
-      height: 50px;
-      color: #555555;
-      &:hover,
-      &:focus {
-        cursor: pointer;
-      }
-    }
-  }
-
-  input:-webkit-autofill {
-    box-shadow: 0 0 0 50px white inset;
-    -webkit-text-fill-color: #555555;
-  }
-
-  input:-webkit-autofill:focus {
-    box-shadow: 0 0 0 50px white inset;
-    -webkit-text-fill-color: #555555;
-  }
-
   input:focus + .focus:before {
     width: 100%;
   }
@@ -82,13 +59,10 @@ export const StyledInput = styled.div<IDetailPropsInput>`
       position: absolute;
       bottom: -2px;
       left: 0;
-      width: ${({ isValid }) => (isValid ? '0' : '100%')};
+      width: 0;
       height: 2px;
       transition: all 0.4s;
-      background: ${({ isValid }) =>
-        isValid
-          ? 'linear-gradient(45deg, #aa39d6, rgba(115, 4, 159, 1))'
-          : globalStyles.buttonNoReachColor};
+      background: linear-gradient(45deg, #aa39d6, rgba(115, 4, 159, 1));
     }
   }
 `
