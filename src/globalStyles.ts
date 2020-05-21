@@ -1,9 +1,5 @@
 export const globalStyles =  {
-    buttonColor: '#20bf6b',
-    buttonNoReachColor: "#C21807",
-    backgroundMainColor: 'rgb(47, 46, 51)',
-    borderColor: 'rgba(131, 131, 131, 0.6)',
-    mainColor : '#20bf6b',
+    warningColor: "#C21807",
     mainColor2: '#73049f',
     borderMainColor2:'#d59aed'
 }

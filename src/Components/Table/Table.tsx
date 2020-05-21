@@ -12,22 +12,26 @@ import { CompaniesAndIncomesData } from '../../Types/Inferaces/ListOfInterfaces'
 import { SingleRow } from './SingleRow/SingleRow'
 import { SingleHeader } from './SingleHeader/SingleHeader'
 import { Spinner } from '../UI/SpinnerForExerciseInfoPanel/Spinner'
-import { WhichColumn, ChevronType } from '../../Types/Enums/EnumsList'
+import { WhichColumn, ChevronType, MessageType } from '../../Types/Enums/EnumsList'
 import MenageData from '../../Types/Classes/MenageData'
 import MenagePagginationData from '../../Types/Classes/MenagePagginationData'
 import { Paggination } from '../Paggination/Paggination'
-import { NumberOfDisplayRows } from './NumberOfDisplayRows/NumberOfDisplayRows'
+import { NumberOfDisplayRows } from '../NumberOfDisplayRows/NumberOfDisplayRows'
+import MessageBox from '../UI/MessageBox/MessageBox'
 
 interface IDetailProps {
   data: CompaniesAndIncomesData[]
   loading: boolean
+  messageType?: {
+    text: string
+    type: MessageType
+  } | null
+  isMessageBoxVisible: boolean
 }
 
 const headerNames = ['Id', 'Name', 'City', 'Total incomes', 'Avarage incomes', 'Last month incomes']
 
 export const Table: React.FC<IDetailProps> = (props) => {
-  let { data, loading } = props
-  console.log('reRender')
   const [whichButton, setWhichButton] = useState<WhichColumn>(0)
   const [reverseButton, setReverseButton] = useState(false)
   const [displayData, setDisplayData] = useState<CompaniesAndIncomesData[] | null>(null)
@@ -35,10 +39,14 @@ export const Table: React.FC<IDetailProps> = (props) => {
   const [whichPage, setWhichPage] = useState(1)
   const [howManyItemsOnSite, setHowManyItemsOnSite] = useState(20)
 
+  let { data, loading, messageType, isMessageBoxVisible } = props
+
   if (!loading && displayData === null) setDisplayData(data)
+
   let showData = null
   let showSpinner = null
   let showPaggination = null
+  let showMessageBox = null
 
   //HeaderButtonHandle
   const handleButton = (id: WhichColumn) => {
@@ -77,12 +85,16 @@ export const Table: React.FC<IDetailProps> = (props) => {
         key={`singleHeader${i}`}
         chevronType={chevronType}
         handleButton={handleButton}
+        loading={loading}
       />
     )
   })
 
   //Display Data
   if (!loading && displayData !== null) {
+    showMessageBox = (
+      <MessageBox isMessageBoxVisible={isMessageBoxVisible} messageType={messageType} />
+    )
     let filterData = displayData
     if (inputValue.length !== 0) filterData = MenageData.filterByInputValue(displayData, inputValue)
 
@@ -101,7 +113,7 @@ export const Table: React.FC<IDetailProps> = (props) => {
       showData = filterData.map((item) => (
         <SingleRow singleData={item} key={`singleRow${item.id}`} />
       ))
-    } else showSpinner = <StyledText>Nie znaleziono w bazie danych</StyledText>
+    } else showSpinner = <StyledText>No results found</StyledText>
   } else
     showSpinner = (
       <SpinnerWrapper>
@@ -110,23 +122,26 @@ export const Table: React.FC<IDetailProps> = (props) => {
     )
 
   return (
-    <StyledWrapper>
-      <StyledHeader>
-        <TitleSvg />
-        <Search handleInputValue={(e) => handleInputValue(e)} />
-        <NumberOfDisplayRows
-          howManyItemsOnSite={howManyItemsOnSite}
-          setHowManyItemsOnSite={handleNumberOfRowsDisplayed}
-        />
-      </StyledHeader>
-      <StyledTable headerNames={headerNames}>
-        <thead>
-          <tr>{showHeader}</tr>
-        </thead>
-        <tbody>{showData}</tbody>
-      </StyledTable>
-      {showSpinner}
-      {showPaggination}
-    </StyledWrapper>
+    <>
+      {showMessageBox}
+      <StyledWrapper>
+        <StyledHeader>
+          <TitleSvg />
+          <Search handleInputValue={handleInputValue} />
+          <NumberOfDisplayRows
+            howManyItemsOnSite={howManyItemsOnSite}
+            setHowManyItemsOnSite={handleNumberOfRowsDisplayed}
+          />
+        </StyledHeader>
+        <StyledTable headerNames={headerNames}>
+          <thead>
+            <tr>{showHeader}</tr>
+          </thead>
+          <tbody>{showData}</tbody>
+        </StyledTable>
+        {showSpinner}
+        {showPaggination}
+      </StyledWrapper>
+    </>
   )
 }

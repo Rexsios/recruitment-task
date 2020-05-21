@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { globalStyles } from '../../globalStyles'
 
 export const StyledWrapper = styled.div`
   width: 100%;
@@ -38,49 +39,42 @@ interface IDetailPropsTable {
 
 export const StyledTable = styled.table<IDetailPropsTable>`
   width: 100%;
-  text-align: center;
-  border-spacing: 0;
+  border-spacing:1px;
+  background-color:#c48aed;
   tr {
-    background-color:rgba(255,255,255,0.9);
+    background-color: rgba(255, 255, 255, 0.9);
     &:nth-child(2n) {
-      background-color: rgba(229,229,229,0.9);
+      background-color: rgba(229, 229, 229, 0.9);
     }
 
     &:hover {
-      background-color: #d59aed;
+      background-color: ${globalStyles.borderMainColor2};
+    }
+  }
+
+  tbody {
+    background-color: ${globalStyles.borderMainColor2};
+    tr {
+      margin-bottom: 3px;
+      display: block;
     }
   }
 
   th {
     background: #9b59b6;
-    padding: 0 !important          ;
+    display: block;
+    padding: 0;
     color: #fff;
     font-weight: 700;
     text-transform: uppercase;
 
     button {
       width: 100%;
-      height: 100%;
-      padding: 15px 10px;
       background: none;
       color: inherit;
       border: none;
       padding: 0;
       font: inherit;
-      cursor: pointer;
-      outline: inherit;
-
-      div {
-        display: grid;
-        padding:0 5px;
-        grid-template-columns: 5fr 1fr;
-        justify-items: center;
-        align-items: center;
-        svg {
-          justify-self: left;
-          margin-left: 3px;
-        }
-      }
 
       &:hover,
       &:focus {
@@ -89,28 +83,25 @@ export const StyledTable = styled.table<IDetailPropsTable>`
         outline: none;
         transition: 0.4s ease-in;
       }
+
+      div {
+        display: grid;
+        grid-template-columns: 5fr 1fr;
+        justify-items: center;
+        align-items: center;
+        p {
+          margin: 10px 0;
+        }
+        svg {
+          justify-self: left;
+          margin-left: 3px;
+        }
+      }
     }
   }
 
   td {
-    padding: 15px 2px;
-    vertical-align: middle;
-    max-width: 500px;
-  }
-
-  @media (max-width: 768px) {
-    th {
-      display: block;
-      padding: 0;
-
-      button {
-        div{
-          padding:0;
-        }
-      }
-    }
-
-    td {
+      max-width: 500px;
       display: block;
       text-align: left;
       padding: 10px 5px 10px 180px;
@@ -124,7 +115,6 @@ export const StyledTable = styled.table<IDetailPropsTable>`
         left: 20px;
         transform: translateY(-50%);
       }
-
 
       &:nth-of-type(2) {
         &:before {
@@ -154,13 +144,45 @@ export const StyledTable = styled.table<IDetailPropsTable>`
           content: '${(p) => p.headerNames[5]}';
         }
       }
+  }
+
+  @media (min-width: 768px) {
+    th {
+      display: table-cell;
+      button {
+        div {
+          padding: 0 5px;
+          p {
+            margin: 16px 0;
+          }
+        }
+      }
+    }
+
+    tbody {
+      background-color: inherit;
+      tr {
+        margin-bottom: 0;
+        display: table-row;
+      }
+    }
+
+    td {
+      vertical-align: middle;
+      text-align: center;
+      padding: 15px 2px;
+      display: table-cell;
+
+      &:before {
+        display: none;
+      }
     }
   }
 `
 
 export const SpinnerWrapper = styled.div`
   margin: 40px auto;
-  width: 30%;
+  width: 25%;
 `
 
 export const StyledText = styled.h2`

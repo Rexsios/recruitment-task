@@ -13,3 +13,8 @@ export enum ChevronType {
   ASCENDING,
   DESCENDING,
 }
+
+export enum MessageType {
+  GOOD,
+  BAD,
+}

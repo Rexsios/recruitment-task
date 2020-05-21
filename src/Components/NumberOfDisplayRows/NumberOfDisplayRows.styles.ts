@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { globalStyles } from '../../../globalStyles'
+import { globalStyles } from '../../globalStyles'
 
 export const Wrapper = styled.div`
   display: grid;
@@ -41,7 +41,7 @@ interface IDetailProps {
 
 export const StyledButton = styled.button<IDetailProps>`
   color: white;
-  background: ${({ isDisable }) => (isDisable ? 'gray' : globalStyles.mainColor2)};;
+  background: ${({ isDisable }) => (isDisable ? 'gray' : globalStyles.mainColor2)};
   padding: 8px 10px;
   border: 4px solid ${({ isDisable }) => (isDisable ? 'gray' : globalStyles.borderMainColor2)};
   border-radius: 6px;
@@ -50,7 +50,7 @@ export const StyledButton = styled.button<IDetailProps>`
 
   &:hover,
   &:focus {
-    border-radius: ${({ isDisable }) => isDisable ? '6px' : '20px'};
+    border-radius: ${({ isDisable }) => (isDisable ? '6px' : '20px')};
     border-color: ${({ isDisable }) => (isDisable ? 'gray' : globalStyles.borderMainColor2)};
     transition: all 0.5s ease 0s;
     outline: none;

@@ -9,14 +9,14 @@ export default class MenageData {
     let minDate = new Date()
     minDate.setMonth(minDate.getMonth() - 1)
 
-    incomesTable.forEach((singleIncome, i) => {
+    incomesTable.forEach((singleIncome) => {
       totalValue += parseFloat(singleIncome.value)
       let dateFromRepo = new Date(singleIncome.date)
 
       if (minDate < dateFromRepo) {
         lastMonthValue += parseFloat(singleIncome.value)
       }
-      counter = i
+      counter++
     })
     let avarageValue = totalValue / counter
     return {

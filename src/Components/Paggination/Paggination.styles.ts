@@ -29,7 +29,7 @@ export const PagginationElement = styled.li<IDetailPropsElement>`
       else if (p.isDisable) return 'gray'
       else return globalStyles.mainColor2
     }};
-    border: 1px solid #d59aed;
+    border: 1px solid ${globalStyles.borderMainColor2};
     margin: 3px;
     font-weight: 700;
     font-size: 14px;

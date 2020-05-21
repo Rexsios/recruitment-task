@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Table } from '../Components/Table/Table'
 import axios from 'axios'
 import {
@@ -7,135 +7,88 @@ import {
   CompaniesAndIncomesData,
 } from '../Types/Inferaces/ListOfInterfaces'
 import ManageData from '../Types/Classes/MenageData'
-
-interface IDetailPropss {}
+import { MessageType } from '../Types/Enums/EnumsList'
 
 interface IDetailState {
-  data: string[]
+  dataToSend?: CompaniesAndIncomesData[]
+  loading?: boolean
+  messageType?: {
+    text: string
+    type: MessageType
+  } | null
+  isMessageBoxVisible?: boolean
 }
-export default class App extends Component {
+export default class App extends React.Component<IDetailState> {
   state = {
-    data: [],
+    dataToSend: [],
     loading: true,
+    messageType: null,
+    isMessageBoxVisible: false,
   }
 
-  componentDidMount() {
-    let tableWithDataToSend: CompaniesAndIncomesData[] = []
-    let length = 0
-    axios
-      .get<[CompaniesData]>('https://recruitment.hal.skygate.io/companies')
-      .then((companiesResponse) => {
-        length = companiesResponse.data.length
-        companiesResponse.data.forEach((item, i) => {
-          axios
-            .get<IncomesData>(`https://recruitment.hal.skygate.io/incomes/${item.id}`)
-            .then((incomesResponse) => {
-              const { totalValue, avarageValue, lastMonthValue } = ManageData.countNecceseryValues(
-                incomesResponse.data.incomes
-              )
+  async componentDidMount() {
+    try {
+      let companiesResponse = await axios.get<[CompaniesData]>(
+        'https://recruitment.hal.skygate.io/companies'
+      )
+      try {
+        const data = companiesResponse.data
+        const ProArray = data.map((item) =>
+          axios.get<IncomesData>(`https://recruitment.hal.skygate.io/incomes/${item.id}`)
+        )
+        const AllProAray = await Promise.all(ProArray).then((data) =>
+          data.map((single) => single.data)
+        )
 
-              const newObjectToTable: CompaniesAndIncomesData = {
-                id: item.id,
-                name: item.name,
-                city: item.city,
-                totalIncomes: totalValue,
-                avarageIncomes: avarageValue,
-                lastMonthIncome: lastMonthValue,
-              }
-              tableWithDataToSend.push(newObjectToTable)
-
-              if (i === length - 1)
-                this.setState({ data: [...tableWithDataToSend], loading: false })
-            })
+        const tableWithDataToSend = AllProAray.map((item, i) => {
+          const { totalValue, avarageValue, lastMonthValue } = ManageData.countNecceseryValues(
+            item.incomes
+          )
+          return {
+            id: companiesResponse.data[i].id,
+            name: companiesResponse.data[i].name,
+            city: companiesResponse.data[i].city,
+            totalIncomes: totalValue,
+            avarageIncomes: avarageValue,
+            lastMonthIncome: lastMonthValue,
+          }
         })
-      })
-      .catch((error) => {})
+        this.setState({
+          dataToSend: tableWithDataToSend,
+          loading: false,
+          messageType: {
+            text: 'Loading complete',
+            type: MessageType.GOOD,
+          },
+          isMessageBoxVisible: true,
+        })
+        setTimeout(() => {
+          this.setState({ isMessageBoxVisible: false })
+        }, 3000)
+      } catch (e) {
+        this.handleErrorCase()
+      }
+    } catch (e) {
+      this.handleErrorCase()
+    }
+  }
+
+  handleErrorCase = () => {
+    this.setState({
+      loading: false,
+      messageType: { text: 'Loading error', type: MessageType.BAD },
+      isMessageBoxVisible: true,
+    })
   }
 
   render() {
-    return <Table data={this.state.data} loading={this.state.loading} />
+    return (
+      <Table
+        data={this.state.dataToSend}
+        loading={this.state.loading}
+        messageType={this.state.messageType}
+        isMessageBoxVisible={this.state.isMessageBoxVisible}
+      />
+    )
   }
 }
-
-/*{[
-          {
-            id: 1,
-            name: 'sdasdas',
-            city: 'sdasdas',
-            totalIncomes: 333,
-            avarageIncomes: 444,
-            lastMonthIncome: 555,
-          },
-          {
-            id: 2,
-            name: 'sdasdas',
-            city: 'sdasdas',
-            totalIncomes: 333,
-            avarageIncomes: 444,
-            lastMonthIncome: 555,
-          },
-          {
-            id: 3,
-            name: 'XD',
-            city: 'sdasdas',
-            totalIncomes: 333,
-            avarageIncomes: 444,
-            lastMonthIncome: 555,
-          },
-          {
-            id: 4,
-            name: 'sdasdas',
-            city: 'sdasdas',
-            totalIncomes: 333,
-            avarageIncomes: 444,
-            lastMonthIncome: 555,
-          },
-          {
-            id: 5,
-            name: 'sdasdas',
-            city: 'sdasdas',
-            totalIncomes: 333,
-            avarageIncomes: 444,
-            lastMonthIncome: 555,
-          },
-          {
-            id: 6,
-            name: 'sdasdas',
-            city: 'sdasdas',
-            totalIncomes: 333,
-            avarageIncomes: 444,
-            lastMonthIncome: 555,
-          },
-          {
-            id: 7,
-            name: 'sdasdas',
-            city: 'sdasdas',
-            totalIncomes: 333,
-            avarageIncomes: 444,
-            lastMonthIncome: 555,
-          },
-          {
-            id: 8,
-            name: 'sdasdas',
-            city: 'sdasdas',
-            totalIncomes: 333,
-            avarageIncomes: 444,
-            lastMonthIncome: 555,
-          },
-          {
-            id: 9,
-            name: 'sdasdas',
-            city: 'sdasdas',
-            totalIncomes: 333,
-            avarageIncomes: 444,
-            lastMonthIncome: 555,
-          },
-          {
-            id: 10,
-            name: 'sdasdas',
-            city: 'sdasdas',
-            totalIncomes: 333,
-            avarageIncomes: 444,
-            lastMonthIncome: 555,
-          },
-        ]}*/

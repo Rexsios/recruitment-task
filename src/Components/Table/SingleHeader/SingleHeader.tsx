@@ -8,10 +8,11 @@ interface IDetailProps {
   id: WhichColumn
   handleButton: (id: WhichColumn) => void
   chevronType: ChevronType
+  loading: boolean
 }
 
 export const SingleHeader: React.FC<IDetailProps> = (props) => {
-  const { name, id, chevronType } = props
+  const { name, id, chevronType, loading } = props
   let chevronTypeShow = <FontAwesomeIcon icon={faMinus} />
   if (chevronType === ChevronType.ASCENDING)
     chevronTypeShow = <FontAwesomeIcon icon={faChevronDown} />
@@ -19,7 +20,7 @@ export const SingleHeader: React.FC<IDetailProps> = (props) => {
     chevronTypeShow = <FontAwesomeIcon icon={faChevronUp} />
   return (
     <th>
-      <button onClick={() => props.handleButton(id)}>
+      <button onClick={() => props.handleButton(id)} disabled={loading}>
         <div>
           <p>{name}</p>
           {chevronTypeShow}
